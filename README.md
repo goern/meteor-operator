@@ -75,7 +75,9 @@ make test SKIP_FETCH_TOOLS=1 KUBEBUILDER_ASSETS=/usr/local/kubebuilder
 
 ```
 
-## Deploying to a local kind cluster
+## Deploying a local cluster with `kind`
+
+The following steps will set up a local Kubernetes cluster for testing, using [kind](https://kind.sigs.k8s.io/):
 
 ```sh
 kind create cluster --config hack/kind-config.yaml
@@ -84,7 +86,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/a
 kubectl apply -f hack/dashboard-adminuser.yaml
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
 kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml
-kubectl apply -f hack/cnbi-prepare.yaml
 
 kubectl -n tekton-pipelines port-forward svc/tekton-dashboard 9097:9097
 
@@ -93,8 +94,11 @@ export T=$(kubectl -n kubernetes-dashboard create token admin-user)
 
 Run `kubectl proxy` to expose 8001 and access http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/ for the kubernetes dashboard.
 
-Use `kubectl port-forward -n tekton-pipelines service/tekton-dashboard 9097:9097` to expose the tekton dashboard, visit
-it at http://localhost:9097/
+Use `kubectl port-forward -n tekton-pipelines service/tekton-dashboard 9097:9097` to expose the tekton dashboard, visit it at http://localhost:9097/
+
+## Testing the operator against an existing cluster
+
+Pre-requisite: a Kubernetes or OpenShift cluster, with the local `KUBECONFIG` configured to access it in the preferred target namespace.
 
 Deploy the tekton pipelines and tasks CNBi Operator depends on: `kubectl apply -f hack/cnbi-prepare.yaml`.
 
