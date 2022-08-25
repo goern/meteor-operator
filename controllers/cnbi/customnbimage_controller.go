@@ -80,8 +80,10 @@ func (r *CustomNBImageReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	r.CNBi.Status.Phase = r.CNBi.AggregatePhase()
 
 	// Check for the PipelineRun reconcilation, and update the status of the CustomNBImage resource
-	if err := r.ReconcilePipelineRun("prepare", &ctx, req); err != nil {
-		return r.UpdateStatusNow(ctx, err)
+	for _, pipeline := range r.CNBi.Spec.Pipelines {
+		if err := r.ReconcilePipelineRun(pipeline, &ctx, req); err != nil {
+			return r.UpdateStatusNow(ctx, err)
+		}
 	}
 
 	/* TODO check if the PipelineRun ran for the current runtime environment
@@ -160,12 +162,12 @@ func (r *CustomNBImageReconciler) ReconcilePipelineRun(name string, ctx *context
 			logger.Info("Creating PipelineRun")
 
 			// if we have a BaseImage supplied, use it
-			if r.CNBi.Spec.RuntimeEnvironment.BaseImage != "" {
+			if r.CNBi.Spec.BaseImage != "" {
 				params = append(params, pipelinev1beta1.Param{
 					Name: "baseImage",
 					Value: pipelinev1beta1.ArrayOrString{
 						Type:      pipelinev1beta1.ParamTypeString,
-						StringVal: r.CNBi.Spec.RuntimeEnvironment.BaseImage,
+						StringVal: r.CNBi.Spec.BaseImage,
 					},
 				})
 			} else {

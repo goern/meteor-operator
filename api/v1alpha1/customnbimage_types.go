@@ -42,22 +42,33 @@ type CustomNBImageRuntimeSpec struct {
 	OSName string `json:"osName,omitempty"`
 	// OSVersion is the Version of the Operating System to use
 	OSVersion string `json:"osVersion,omitempty"`
-	// BaseImage is an alternative the the three above fields
-	BaseImage string `json:"baseImage,omitempty"`
 }
 
 // CustomNBImageSpec defines the desired state of CustomNBImage
 type CustomNBImageSpec struct {
-	// RuntimeEnvironment is the runtime environment to use for the Custome Notebook Image
-	RuntimeEnvironment CustomNBImageRuntimeSpec `json:"runtimeEnvironment,omitempty"`
-	// PackageVersion is a set of Packages including their Version Specifiers
-	PackageVersion []string `json:"packageVersions,omitempty"`
 	// Name that should be shown in the UI
-	Name string `json:"name"`
+	DisplayName string `json:"displayName"`
 	// Description that should be shown in the UI
 	Description string `json:"description,omitempty"`
 	// Creator is the name of the user who created the CustomNBImage
 	Creator string `json:"creator"`
+	// RuntimeEnvironment is the runtime environment to use for the Custome Notebook Image
+	RuntimeEnvironment CustomNBImageRuntimeSpec `json:"runtimeEnvironment,omitempty"`
+	// PackageVersion is a set of Packages including their Version Specifiers
+	PackageVersion []string `json:"packageVersions,omitempty"`
+	// An existing image to validate/import, or to use as the base for builds
+	BaseImage string `json:"baseImage,omitempty"`
+	// Git repository containing source artifacts and build configuration
+	RepoURL string `json:"repoURL,omitempty"`
+	// Branch or tag or commit reference within the repository.
+	//+operator-sdk:csv:customresourcedefinitions:type=spec,displayName="Branch Reference",xDescriptors={"urn:alm:descriptor:com.tectonic.ui:text"}
+	Ref string `json:"ref,omitempty"`
+	// Time to live after the resource was created.
+	//+optional
+	TTL int64 `json:"ttl,omitempty"`
+	// List of pipelines to initiate for this meteor
+	//+kubebuilder:default={jupyterhub,jupyterbook}
+	Pipelines []string `json:"pipelines"`
 }
 
 // CustomNBImageStatus defines the observed state of CustomNBImage

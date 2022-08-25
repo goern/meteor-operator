@@ -40,13 +40,17 @@ spec:
           spec:
             description: CustomNBImageSpec defines the desired state of CustomNBImage
             properties:
+              baseImage:
+                description: An existing image to validate/import, or to use as the
+                  base for builds
+                type: string
               creator:
                 description: Creator is the name of the user who created the CustomNBImage
                 type: string
               description:
                 description: Description that should be shown in the UI
                 type: string
-              name:
+              displayName:
                 description: Name that should be shown in the UI
                 type: string
               packageVersions:
@@ -55,13 +59,25 @@ spec:
                 items:
                   type: string
                 type: array
+              pipelines:
+                default:
+                - jupyterhub
+                - jupyterbook
+                description: List of pipelines to initiate for this meteor
+                items:
+                  type: string
+                type: array
+              ref:
+                description: Branch or tag or commit reference within the repository.
+                type: string
+              repoURL:
+                description: Git repository containing source artifacts and build
+                  configuration
+                type: string
               runtimeEnvironment:
                 description: RuntimeEnvironment is the runtime environment to use
                   for the Custome Notebook Image
                 properties:
-                  baseImage:
-                    description: BaseImage is an alternative the the three above fields
-                    type: string
                   osName:
                     description: OSName is the Name of the Operating System to use
                     type: string
@@ -73,9 +89,14 @@ spec:
                     description: PythonVersion is the version of Python to use
                     type: string
                 type: object
+              ttl:
+                description: Time to live after the resource was created.
+                format: int64
+                type: integer
             required:
             - creator
-            - name
+            - displayName
+            - pipelines
             type: object
           status:
             description: CustomNBImageStatus defines the observed state of CustomNBImage
