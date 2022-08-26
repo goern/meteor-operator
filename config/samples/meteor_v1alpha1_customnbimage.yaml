@@ -56,3 +56,14 @@ spec:
     - boto3>=1.24.0
   pipelines:
     - prepare
+---
+apiVersion: meteor.zone/v1alpha1
+kind: CustomNBImage
+metadata:
+  name: import-s2i-minimal
+spec:
+  displayName: Imported s2i minimal
+  creator: thoth-station
+  baseImage: quay.io/thoth-station/s2i-minimal-py38-notebook:v0.2.2
+  pipelines:
+    - import
