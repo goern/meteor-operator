@@ -158,7 +158,29 @@ func (r *CustomNBImageReconciler) ReconcilePipelineRun(name string, ctx *context
 
 	if err := r.Get(*ctx, namespacedName, pipelineRun); err != nil {
 		if errors.IsNotFound(err) {
-			params := []pipelinev1beta1.Param{}
+			params := []pipelinev1beta1.Param{
+				{
+					Name: "name",
+					Value: pipelinev1beta1.ArrayOrString{
+						Type:      pipelinev1beta1.ParamTypeString,
+						StringVal: r.CNBi.Spec.DisplayName, // TODO: should this be different?
+					},
+				},
+				{
+					Name: "description",
+					Value: pipelinev1beta1.ArrayOrString{
+						Type:      pipelinev1beta1.ParamTypeString,
+						StringVal: r.CNBi.Spec.Description,
+					},
+				},
+				{
+					Name: "creator",
+					Value: pipelinev1beta1.ArrayOrString{
+						Type:      pipelinev1beta1.ParamTypeString,
+						StringVal: r.CNBi.Spec.Creator,
+					},
+				},
+			}
 			logger.Info("Creating PipelineRun")
 
 			// if we have a BaseImage supplied, use it
