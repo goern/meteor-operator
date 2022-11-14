@@ -7,7 +7,7 @@ rules:
   - apiGroups:
       - meteor.zone
     resources:
-      - customruntimeenvironment
+      - customruntimeenvironments
     verbs:
       - get
       - list
@@ -15,6 +15,6 @@ rules:
   - apiGroups:
       - meteor.zone
     resources:
-      - customruntimeenvironment/status
+      - customruntimeenvironments/status
     verbs:
       - get

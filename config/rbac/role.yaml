@@ -94,7 +94,7 @@ rules:
 - apiGroups:
   - meteor.zone
   resources:
-  - customtruntimeenvironment
+  - customtruntimeenvironments
   verbs:
   - create
   - delete
@@ -106,13 +106,13 @@ rules:
 - apiGroups:
   - meteor.zone
   resources:
-  - customtruntimeenvironment/finalizers
+  - customtruntimeenvironments/finalizers
   verbs:
   - update
 - apiGroups:
   - meteor.zone
   resources:
-  - customtruntimeenvironment/status
+  - customtruntimeenvironments/status
   verbs:
   - get
   - patch

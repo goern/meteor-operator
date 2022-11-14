@@ -48,9 +48,9 @@ type CustomRuntimeEnvironmentReconciler struct {
 	CRE    *meteorv1alpha1.CustomRuntimeEnvironment
 }
 
-//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironment,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironment/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironment/finalizers,verbs=update
+//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironments,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironments/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=meteor.zone,resources=customtruntimeenvironments/finalizers,verbs=update
 //+kubebuilder:rbac:groups=tekton.dev,resources=pipelineruns,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=tekton.dev,resources=pipelineruns/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=tekton.dev,resources=pipelineruns/finalizers,verbs=update
